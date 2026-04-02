@@ -1,0 +1,16 @@
+fastapi
+kornia
+numpy
+omegaconf
+opencv-python
+opencv-python-headless
+pillow
+python-dotenv
+python-multipart
+pytorch-lightning
+pyyaml
+scikit-image
+simple-lama-inpainting
+torch
+torchvision
+uvicorn

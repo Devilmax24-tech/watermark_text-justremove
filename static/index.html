@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JustRemove — Remove Watermarks from Images</title>
+    <meta name="description" content="JustRemove removes watermarks from your images instantly. Upload, paint, and download — powered by a custom-trained inpainting model. No sign-up, no cloud, 100% private.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=1.1">
+</head>
+<body>
+    <!-- Animated background blobs -->
+    <div class="bg-blobs" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <!-- ─── NAVBAR ─────────────────────────────────────── -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon"></span>
+                <span class="logo-text">JustRemove</span>
+            </a>
+            <div class="nav-links">
+                <a href="#hero" class="nav-link">Platform</a>
+                <a href="#how-it-works" class="nav-link">Process</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#upload-section" class="nav-link">Developers</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#upload-section" class="btn-primary">Start creating</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ─── HERO — MINIMALIST ───────────────────────────── -->
+    <section class="hero" id="hero">
+        <div class="hero-inner">
+            <span class="hero-pill">Stateless AI Inpainting</span>
+            <h1 class="hero-title">
+                The platform to build and ship.
+            </h1>
+            <p class="hero-sub">
+                JustRemove uses a high-precision, fine-tuned LaMA model to restore images with surgical accuracy. No sign-up, no cloud processing, 100% private.
+            </p>
+            <div class="hero-actions">
+                <a href="#upload-section" class="btn-primary" id="hero-upload-btn">Start creating</a>
+                <a href="#how-it-works" class="btn-secondary">How it works</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── STATS BAR ──────────────────────────────────── -->
+    <section class="stats-bar" id="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-number" data-target="5000" data-suffix="+">0</div>
+                <div class="stat-label">Images Processed</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="10" data-prefix="<" data-suffix="s">0</div>
+                <div class="stat-label">Avg. Processing Time</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="100" data-suffix="%">0</div>
+                <div class="stat-label">Private — No Storage</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="0" data-suffix=" Sign-Ups">0</div>
+                <div class="stat-label">Required</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── ROADMAP / PIPELINE ──────────────────────────── -->
+    <section class="roadmap-section" id="how-it-works">
+        <div class="roadmap-header">
+            <span class="roadmap-eyebrow">The Process</span>
+            <h2 class="roadmap-title">Three steps.<br>Infinite possibilities.</h2>
+        </div>
+        
+        <div class="roadmap-content">
+            <!-- Left: Sidebar steps -->
+            <div class="steps-list">
+                <div class="step-item active" data-step="1">
+                    <span class="step-roman">I</span>
+                    <span class="step-label">INGEST</span>
+                    <p class="step-desc">Upload your image to the stateless processing engine. No data is stored.</p>
+                </div>
+                <div class="step-item" data-step="2">
+                    <span class="step-roman">II</span>
+                    <span class="step-label">TRANSFORM</span>
+                    <p class="step-desc">Paint the region. Our LaMA model reconstructs pixels with high fidelity.</p>
+                </div>
+                <div class="step-item" data-step="3">
+                    <span class="step-roman">III</span>
+                    <span class="step-label">RESTORE</span>
+                    <p class="step-desc">Download a clean, surgical-grade result. Instant and ready to ship.</p>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Visualization Area -->
+            <div class="visualization-area">
+                <div class="container-box">
+                    <div class="box-header">
+                        <div class="box-controls">
+                            <span class="box-dot dot-r"></span>
+                            <span class="box-dot dot-y"></span>
+                            <span class="box-dot dot-g"></span>
+                        </div>
+                        <span class="box-title" id="box-filename">pipeline.sh</span>
+                    </div>
+                    <div class="box-body" id="visual-box-body">
+                        <!-- Content will be swapped by JS -->
+                        <div class="visual-content">
+                            <p class="code-comment"># Initializing local AI environment...</p>
+                            <p><span class="code-keyword">import</span> { engine } <span class="code-keyword">from</span> <span class="code-str">"@justremove/core"</span></p>
+                            <br>
+                            <div class="status-pill">
+                                <span class="status-dot"></span>
+                                READY FOR INGEST
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FEATURES — MINIMALIST ────────────────────────── -->
+    <section class="features-section" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-label">ARCHITECTURE</span>
+                <h3 class="feature-title">Stateless engine.</h3>
+                <p class="feature-desc">Every request is processed in-memory. Zero logs. Zero storage. Total privacy by design.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-label">MODELS</span>
+                <h3 class="feature-title">LaMA inpainting.</h3>
+                <p class="feature-desc">Fine-tuned for watermark removal, our model handles complex textures and lighting transitions.</p>
+            </div>
+    </section>
+
+    <!-- ─── MAIN TOOL AREA ─────────────────────────────── -->
+    <main class="tool-area" id="tool-area">
+
+        <!-- UPLOAD SECTION -->
+        <section id="upload-section" class="tool-section active">
+            <div class="roadmap-header" style="margin-bottom: 2rem;">
+                 <span class="roadmap-eyebrow">The Tool</span>
+                 <h2 class="roadmap-title">Process In-Memory</h2>
+            </div>
+            <p class="section-sub">Click the button below to select an image file (PNG, JPG, JPEG, WEBP · up to 20 MB)</p>
+
+            <input type="file" id="image-input" accept="image/*" hidden aria-label="Select image file">
+
+            <div class="upload-btn-area">
+                <button id="upload-trigger-btn" class="btn-primary">
+                    Choose File
+                </button>
+                <p class="upload-hint">PNG · JPG · JPEG · WEBP</p>
+            </div>
+
+            <div id="file-preview-card" class="file-preview-card hidden">
+                <div class="file-preview-thumb-wrap">
+                    <img id="preview-thumb" src="" alt="Preview">
+                </div>
+                <div class="file-preview-info">
+                    <span class="file-preview-name" id="preview-name"></span>
+                    <span class="file-preview-size" id="preview-size"></span>
+                </div>
+                <button id="change-file-btn" class="btn-result-secondary" title="Change file">
+                    Change
+                </button>
+            </div>
+
+            <button id="upload-proceed-btn" class="btn-primary hidden">
+                <span>Paint Watermark Area</span>
+            </button>
+        </section>
+
+        <!-- EDITOR SECTION -->
+        <section id="editor-section" class="tool-section">
+            <div class="section-label">STEP 2 — MARK</div>
+            <h2 class="section-title">Paint over the watermark</h2>
+            <p class="section-sub">Use your brush to highlight the watermark area, then click Remove</p>
+            <div class="editor-container">
+                <div class="canvas-wrapper" id="canvas-wrapper">
+                    <canvas id="main-canvas"></canvas>
+                    <canvas id="mask-canvas"></canvas>
+                    <div class="canvas-hint" id="canvas-hint">
+                        <span>Start painting</span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="tool-group">
+                        <label class="tool-label">Brush Size</label>
+                        <div class="slider-wrap">
+                            <input type="range" id="brush-size" min="5" max="100" value="20" class="slider" aria-label="Brush size">
+                            <span class="slider-val" id="brush-size-val">20px</span>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <button id="clear-mask" class="btn-secondary">
+                            Clear (X)
+                        </button>
+                        <button id="remove-btn" class="btn-primary">
+                            Remove Watermark
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULT SECTION -->
+        <section id="result-section" class="tool-section">
+            <div class="section-label">STEP 3 — RESULT</div>
+            <h2 class="section-title">Watermark removed!</h2>
+            <p class="section-sub">Drag the slider to compare before and after</p>
+            <div class="result-container">
+                <div class="comparison-slider" id="comparison-slider" role="slider" aria-label="Before and after comparison">
+                    <div class="comparison-before">
+                        <img id="original-preview" src="" alt="Original image">
+                        <span class="comparison-label label-before">BEFORE</span>
+                    </div>
+                    <div class="comparison-after" id="comparison-after">
+                        <img id="result-preview" src="" alt="Processed image">
+                        <span class="comparison-label label-after">AFTER</span>
+                    </div>
+                    <div class="comparison-handle" id="comparison-handle">
+                        <div class="handle-line"></div>
+                        <div class="handle-circle"></div>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button id="reset-btn" class="btn-secondary">
+                        Try Another Image
+                    </button>
+                    <a id="download-btn" class="btn-primary" download="justremove-result.png" href="#">
+                        Download Image
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ─── LOADING OVERLAY ───────────────────────────── -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-card">
+            <div class="ai-loader"></div>
+            <p class="loading-title">Removing watermark</p>
+            <p class="loading-sub" id="loading-status">Analyzing region...</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── FOOTER ────────────────────────────────────── -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="#" class="footer-logo">
+                    <span class="logo-icon-sm">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="white"/>
+                            <path d="M2 17l10 5 10-5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    JustRemove
+                </a>
+                <p class="footer-tagline">Stateless. Secure. Private. Free.</p>
+                <p class="footer-model-note">Powered by a custom-trained LaMA inpainting model</p>
+            </div>
+            <div class="footer-links-group">
+                <span class="footer-group-label">Product</span>
+                <nav class="footer-links" aria-label="Footer navigation">
+                    <a href="#how-it-works">How it works</a>
+                    <a href="#features">Features</a>
+                    <a href="#about-section">About</a>
+                    <a href="#upload-section">Try it now</a>
+                </nav>
+            </div>
+            <div class="footer-links-group">
+                <span class="footer-group-label">Legal</span>
+                <nav class="footer-links" aria-label="Footer legal links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Contact</a>
+                </nav>
+            </div>
+            <div class="footer-links-group">
+                <span class="footer-group-label">Info</span>
+                <nav class="footer-links" aria-label="Footer info links">
+                    <a href="#">About</a>
+                    <a href="#">Open Source</a>
+                </nav>
+            </div>
+        </div>
+        <div class="footer-copy-bar">
+            <p class="footer-copy">&copy; 2026 JustRemove. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ─── FLOATING CTA ───────────────────────────────── -->
+    <div class="float-cta hidden" id="float-cta">
+        <button id="float-cta-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Remove a Watermark
+        </button>
+    </div>
+
+    <script src="/static/script.js?v=1.1"></script>
+</body>
+</html>

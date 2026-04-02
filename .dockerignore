@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+.git/
+.env
+data/
+algorithms/models/*.pt
+# If models are large, you might want to fetch them via script or cloud storage during build
+# but for now, we'll include them if they're needed for a simple deploy.

@@ -1,0 +1,12 @@
+opencv-python
+torch
+torchvision
+numpy
+scikit-image
+omegaconf
+pytorch-lightning
+kornia
+pyyaml
+simple-lama-inpainting
+Pillow
+python-dotenv

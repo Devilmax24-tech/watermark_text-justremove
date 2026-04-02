@@ -1,0 +1,264 @@
+/* ---------------------------------------------------------------------
+   JustRemove - CORE Design Tokens
+   --------------------------------------------------------------------- */
+
+:root {
+    --black:        #000000;
+    --white:        #ffffff;
+    --gray-dark:    #0a0a0a;
+    --gray-mid:     #111111;
+    --gray-light:   #888888;
+    --gray-border:  #1f1f1f;
+    --gray-soft:    #f5f5f5;
+    --accent:       #3b82f6; 
+    --radius-sm:    6px;
+    --radius-md:    12px;
+    --radius-lg:    20px;
+    --transition:   cubic-bezier(0.16, 1, 0.3, 1);
+    --nav-height:   72px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+}
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+}
+.logo-icon {
+    width: 28px; height: 28px;
+    background: var(--black);
+    border-radius: 6px;
+}
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+.nav-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gray-light);
+}
+
+/* HERO SECTION */
+.hero {
+    padding: calc(var(--nav-height) + 120px) 2rem 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.hero-pill {
+    font-family: monospace;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    margin-bottom: 1.5rem;
+}
+.hero-title {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -3.5px;
+    margin-bottom: 3rem;
+}
+.hero-sub {
+    font-size: 1.25rem;
+    color: var(--gray-light);
+    max-width: 600px;
+    margin-bottom: 3rem;
+}
+.btn-primary {
+    background: var(--black);
+    color: var(--white);
+    padding: 1rem 2rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+}
+.btn-secondary {
+    border: 1px solid #ddd;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    margin-left: 1rem;
+}
+
+/* ROADMAP - TWO COLUMN GRID */
+.roadmap-section {
+    background: var(--black);
+    color: var(--white);
+    padding: 140px 2rem;
+}
+.roadmap-header {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+}
+.roadmap-eyebrow {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--gray-light);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+}
+.roadmap-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -2px;
+}
+.roadmap-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8rem;
+    align-items: flex-start;
+}
+.steps-list {
+    flex: 0 0 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    position: sticky;
+    top: 150px;
+}
+.step-item {
+    opacity: 0.25;
+    transition: all 0.4s ease;
+}
+.step-item.active {
+    opacity: 1;
+}
+.step-roman { font-family: serif; font-size: 1rem; color: var(--gray-light); }
+.step-label { font-size: 1.75rem; font-weight: 700; margin: 0.5rem 0; display: block; }
+.step-desc { color: var(--gray-light); line-height: 1.5; }
+
+.visualization-area {
+    flex: 1;
+    position: sticky;
+    top: 150px;
+}
+.container-box {
+    background: #0a0a0a;
+    border: 1px solid #1f1f1f;
+    border-radius: 12px;
+    padding: 0;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.box-header {
+    background: #111;
+    height: 50px;
+    border-bottom: 1px solid #222;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.container-dot-group { display: flex; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
+.box-title { color: #555; font-family: monospace; font-size: 0.8rem; }
+.box-body {
+    padding: 2.5rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+/* FEATURES GRID */
+.features-section {
+    padding: 120px 2rem;
+    background: #fff;
+}
+.features-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+.feature-card {
+    border-top: 1px solid #eee;
+    padding-top: 2rem;
+}
+.feature-label { font-size: 0.75rem; color: #888; font-family: monospace; margin-bottom: 1rem; display: block; }
+.feature-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+.feature-desc { color: #888; }
+
+/* TOOL AREA */
+.tool-area {
+    padding: 120px 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.tool-section { display: none; text-align: center; }
+.tool-section.active { display: block; }
+.canvas-wrapper {
+    position: relative;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 40px auto;
+}
+#mask-canvas { position: absolute; top: 0; left: 0; }
+
+/* FOOTER */
+.footer {
+    background: #000;
+    color: #fff;
+    padding: 100px 2rem;
+}
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4rem;
+}
+.footer-links { display: flex; flex-direction: column; gap: 1rem; }
+.footer-links a { color: #888; font-size: 0.9rem; }
+
+@media (max-width: 1000px) {
+    .roadmap-content { flex-direction: column; }
+    .features-grid { grid-template-columns: 1fr; }
+    .steps-list { flex: none; position: static; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
