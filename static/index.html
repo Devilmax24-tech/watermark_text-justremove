@@ -1,59 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JustRemove — Free AI Watermark Remover Online</title>
-    <meta name="description" content="Remove watermarks from any image for free in seconds. Easy, high-quality, and completely private.">
+    <meta name="description"
+        content="Remove watermarks from any image for free in seconds. Easy, high-quality, and completely private.">
     <link rel="stylesheet" href="/static/style.css?v=5.0">
 </head>
+
 <body>
 
     <!-- ─── NAVBAR ─────────────────────────────────────── -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="nav-logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
                 <span>JustRemove</span>
             </a>
             <div class="nav-links" style="display: flex; gap: 2rem;">
-                <a href="#" class="nav-link">How it works</a>
-                <a href="#" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How it works</a>
+                <a href="#features" class="nav-link">Features</a>
             </div>
-            <button id="nav-upload-btn" class="btn-secondary" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">Upload Image</button>
+            <button id="nav-upload-btn" class="btn-primary"
+                style="padding: 0.5rem 1.5rem; font-size: 0.85rem; border-radius: 50px;">Upload Image</button>
         </div>
     </nav>
 
     <!-- ─── HERO & INTEGRATED UPLOAD ───────────────────── -->
     <section class="hero" id="hero">
-        <div style="display: inline-block; padding: 0.25rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 1.5rem;">Free Online</div>
-        <h1 class="hero-title">Remove Watermarks<br><span>from your images for free.</span></h1>
-        <p class="hero-sub">
-            Our tool removes watermarks, logos, and unwanted objects from any photo in seconds.
+        <div
+            style="display: inline-block; padding: 0.25rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 1.5rem;">
+            Free Online</div>
+        <h1 class="hero-title">Remove Watermarks <span>from your images for free.</span></h1>
+        <p class="hero-sub" style="margin-bottom: 2.5rem; color: #ffffff; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+            Powered by next-generation AI, 
+            <span style="position: relative; display: inline-block; font-weight: 800; color: #ffffff;">
+                JustRemove
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none" style="position: absolute; bottom: -6px; left: -5%; width: 110%; height: 10px; z-index: -1;">
+                    <path d="M0,15 Q50,0 100,12" stroke="var(--primary)" stroke-width="4" stroke-linecap="round" fill="none"/>
+                </svg>
+            </span> 
+            cleans your images instantly while preserving every original detail.
         </p>
 
         <!-- UPLOAD SECTION (Integrated) -->
-        <main class="tool-area" id="tool-area">
+        <main class="tool-area" id="tool-area" style="position: relative; z-index: 10;">
             <section id="upload-section" class="tool-section active">
                 <div class="upload-container" id="drop-zone">
-                    <div style="margin-bottom: 2rem;">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    </div>
-                    <button id="upload-trigger-btn" class="btn-primary">Upload Image</button>
-                    <p class="upload-hint">or drop an image here</p>
+                    <button id="upload-trigger-btn" class="btn-primary"
+                        style="padding: 1rem 3.5rem; background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); display: flex; align-items: center; gap: 0.75rem; margin: 0 auto; box-shadow: 0 8px 25px rgba(58, 123, 213, 0.4);"><span
+                            style="font-size: 1.4rem; font-weight: bold; line-height: 1;">+</span> <span
+                            style="font-size: 1.1rem;">Upload</span></button>
+                    <p class="upload-hint" style="margin-top: 1.5rem; font-size: 0.95rem; color: #888; font-weight: 500;">Drop an image or Paste
+                        <strong style="color: #fff;">URL</strong> (Image or Photo)
+                    </p>
                     <input type="file" id="image-input" accept="image/*" hidden>
                 </div>
 
-                <!-- Pre-upload placeholder images -->
-                <div class="placeholders-section">
-                    <p class="placeholders-title">No image? Try one of these:</p>
-                    <div class="placeholders-grid">
-                        <div class="placeholder-item"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=200&q=80"></div>
-                        <div class="placeholder-item"><img src="https://images.unsplash.com/photo-1511576661531-b3837da1222e?auto=format&fit=crop&w=200&q=80"></div>
-                        <div class="placeholder-item"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=200&q=80"></div>
-                    </div>
-                </div>
             </section>
 
             <!-- EDITOR SECTION -->
@@ -75,11 +83,13 @@
                         <div class="tool-group">
                             <label class="tool-label">Brush Size</label>
                             <input type="range" id="brush-size" min="5" max="100" value="30" class="slider">
-                            <span id="brush-size-val" style="font-size: 0.85rem; color: var(--text-light); font-weight: 600;">30px</span>
+                            <span id="brush-size-val"
+                                style="font-size: 0.85rem; color: var(--text-light); font-weight: 600;">30px</span>
                         </div>
                         <div class="tool-actions" style="display: flex; gap: 0.75rem;">
                             <button id="clear-mask" class="btn-secondary">Clear</button>
-                            <button id="remove-btn" class="btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;">Remove</button>
+                            <button id="remove-btn" class="btn-primary"
+                                style="padding: 0.75rem 2rem; font-size: 1rem;">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -105,13 +115,17 @@
                         </div>
                         <div class="comparison-handle" id="comparison-handle">
                             <div class="handle-circle">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
                             </div>
                         </div>
                     </div>
                     <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
                         <button id="reset-btn" class="btn-secondary" style="padding: 1rem 2rem;">Upload Another</button>
-                        <a id="download-btn" class="btn-primary" download="clean-image.png" style="text-decoration: none; padding: 1rem 2.5rem;">Download</a>
+                        <a id="download-btn" class="btn-primary" download="clean-image.png"
+                            style="text-decoration: none; padding: 1rem 2.5rem;">Download</a>
                     </div>
                 </div>
             </section>
@@ -119,7 +133,7 @@
     </section>
 
     <!-- ─── HOW IT WORKS ──────────────────────────────── -->
-    <section class="content-section">
+    <section id="how-it-works" class="content-section">
         <div class="content-container">
             <h2 class="section-title">How It Works</h2>
             <div class="steps-grid">
@@ -143,24 +157,29 @@
     </section>
 
     <!-- ─── FEATURES ──────────────────────────────────── -->
-    <section class="content-section" style="background: var(--bg-card);">
+    <section id="features" class="content-section" style="background: var(--bg-card);">
         <div class="content-container">
             <h2 class="section-title">Features & Quality</h2>
             <p class="section-sub">See professional, seamless watermark removal in action.</p>
             <div class="features-grid">
                 <div class="feature-item">
                     <div class="feature-img-box">
-                        <img src="https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=500&q=80" alt="Watermarked Image" style="filter: sepia(0.5) contrast(1.2);">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=400&fit=crop&q=80"
+                            alt="Watermarked Image">
+                        <div
+                            style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-30deg); font-size:2.5rem; font-weight:900; color:rgba(255,255,255,0.85); text-shadow: 0 4px 10px rgba(0,0,0,0.5); pointer-events:none; text-transform:uppercase; letter-spacing:5px;">
+                            SHUTTERSTOCK</div>
                         <div class="feature-badge">Before</div>
                     </div>
                     <h4>Original Image</h4>
                 </div>
                 <div class="feature-item">
                     <div class="feature-img-box">
-                        <img src="https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=500&q=80" alt="Cleaned Image">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=400&fit=crop&q=80"
+                            alt="Cleaned Image">
                         <div class="feature-badge" style="background: var(--primary);">After</div>
                     </div>
-                    <h4>AI Removed</h4>
+                    <h4>Watermark Removed</h4>
                 </div>
             </div>
         </div>
@@ -169,21 +188,72 @@
     <!-- ─── FOOTER ────────────────────────────────────── -->
     <footer class="footer">
         <div class="footer-inner">
-            <div class="footer-brand">
-                <div class="footer-logo">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    <span>JustRemove</span>
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-col-brand">
+                    <div class="footer-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                        <span>JustRemove AI</span>
+                    </div>
+                    <p class="footer-brand-text">The world's most advanced AI-powered watermark removal tool. Restore your photos with professional precision instantly.</p>
                 </div>
-                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">© 2026 JustRemove. All rights reserved.</p>
+                
+                <!-- Product Column -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Product</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#hero">Watermark Remover</a></li>
+                        <li><a href="#">Object Eraser</a></li>
+                        <li><a href="#">Batch Processing</a></li>
+                        <li><a href="#">AI Upscaler</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Resources</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#how-it-works">How it works</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#">API Docs</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Column -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Connect</h4>
+                    <ul class="footer-links-list">
+                        <li>
+                            <a href="https://x.com/RazzAmit1098631" target="_blank" style="display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 4s-1 2.1-3 3c0 7.3-5 12-11 12-3.1 0-5.9-1.3-8-4 0 0 4 .1 6-2-2.1-.1-4-1.4-4-4 0 0 2 1 3 1-2.2-1.7-2.9-4.7-1-7 2.1 2.9 5.3 5 9 5.1V7a5 5 0 0 1 10-1c1 .9 2 1 2 1z"/>
+                                </svg>
+                                Twitter (X)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:razzamit5200@gmail.com" style="display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                razzamit5200@gmail.com
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-links">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="https://github.com/Devilmax24-tech/watermark_text-justremove">GitHub</a>
+
+            <div class="footer-bottom" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                <p class="footer-copyright">© 2026 JustRemove AI. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="/static/script.js?v=5.0"></script>
 </body>
+
 </html>
