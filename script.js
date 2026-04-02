@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('image', imgBlob, 'file.png');
             formData.append('mask', maskBlob, 'mask.png');
 
-            const response = await fetch('/remove-watermark', { method: 'POST', body: formData });
+            const response = await fetch('./remove-watermark', { method: 'POST', body: formData });
             if (!response.ok) throw new Error('Failed to remove watermark');
 
             const resultBlob = await response.blob();
