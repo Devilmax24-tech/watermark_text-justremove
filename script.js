@@ -99,41 +99,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const initEditor = () => {
         const img = state.originalImage;
         const container = sections.editor.querySelector('.editor-container');
-        const padding = 48; // 1.5rem * 2
+        const padding = window.innerWidth < 600 ? 24 : 48; 
         const containerWidth = container.clientWidth - padding;
-        const availableHeight = window.innerHeight * 0.5; // Max 50vh for canvas
+        const availableHeight = window.innerHeight * 0.6;
         
         const scaleW = containerWidth / img.width;
         const scaleH = availableHeight / img.height;
         state.scaleFactor = Math.min(1, scaleW, scaleH);
         
-        const w = img.width * state.scaleFactor;
-        const h = img.height * state.scaleFactor;
+        const w = Math.floor(img.width * state.scaleFactor);
+        const h = Math.floor(img.height * state.scaleFactor);
 
-        elements.mainCanvas.width = elements.maskCanvas.width = w;
-        elements.mainCanvas.height = elements.maskCanvas.height = h;
+        // High DPI Support
+        const dpr = window.devicePixelRatio || 1;
+        elements.mainCanvas.width = elements.maskCanvas.width = w * dpr;
+        elements.mainCanvas.height = elements.maskCanvas.height = h * dpr;
+        elements.mainCanvas.style.width = elements.maskCanvas.style.width = w + 'px';
+        elements.mainCanvas.style.height = elements.maskCanvas.style.height = h + 'px';
 
         const ctx = elements.mainCanvas.getContext('2d');
+        ctx.scale(dpr, dpr);
         ctx.drawImage(img, 0, 0, w, h);
 
         state.maskCtx = elements.maskCanvas.getContext('2d');
+        state.maskCtx.scale(dpr, dpr);
         state.maskCtx.lineCap = 'round';
         state.maskCtx.lineJoin = 'round';
-        state.maskCtx.strokeStyle = 'rgba(242, 78, 30, 0.7)'; // Vibrant orange mask
+        state.maskCtx.strokeStyle = 'rgba(242, 78, 30, 0.7)';
         state.maskCtx.lineWidth = elements.brushSlider.value;
     };
 
-    const getMousePos = (e) => {
+    const getPos = (e) => {
         const rect = elements.maskCanvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
         return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
+            x: clientX - rect.left,
+            y: clientY - rect.top
         };
+    };
+
+    const startDrawing = (e) => {
+        if (e.type === 'touchstart') e.preventDefault();
+        state.isDrawing = true;
+        const pos = getPos(e);
+        [state.lastX, state.lastY] = [pos.x, pos.y];
     };
 
     const draw = (e) => {
         if (!state.isDrawing) return;
-        const pos = getMousePos(e);
+        if (e.type === 'touchmove') e.preventDefault();
+        const pos = getPos(e);
 
         state.maskCtx.beginPath();
         state.maskCtx.moveTo(state.lastX, state.lastY);
@@ -143,15 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
         [state.lastX, state.lastY] = [pos.x, pos.y];
     };
 
-    elements.maskCanvas.onmousedown = (e) => {
-        state.isDrawing = true;
-        const pos = getMousePos(e);
-        [state.lastX, state.lastY] = [pos.x, pos.y];
-    };
+    const stopDrawing = () => state.isDrawing = false;
 
-    elements.maskCanvas.onmousemove = draw;
-    elements.maskCanvas.onmouseup = () => state.isDrawing = false;
-    elements.maskCanvas.onmouseout = () => state.isDrawing = false;
+    // Mouse Events
+    elements.maskCanvas.addEventListener('mousedown', startDrawing);
+    elements.maskCanvas.addEventListener('mousemove', draw);
+    elements.maskCanvas.addEventListener('mouseup', stopDrawing);
+    elements.maskCanvas.addEventListener('mouseout', stopDrawing);
+
+    // Touch Events
+    elements.maskCanvas.addEventListener('touchstart', startDrawing, { passive: false });
+    elements.maskCanvas.addEventListener('touchmove', draw, { passive: false });
+    elements.maskCanvas.addEventListener('touchend', stopDrawing);
 
     elements.brushSlider.oninput = (e) => {
         const val = e.target.value;
@@ -220,15 +239,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const move = (e) => {
             if (!elements.compSlider.classList.contains('dragging')) return;
             const rect = elements.compSlider.getBoundingClientRect();
-            let x = (e.pageX - rect.left) / rect.width;
+            const pageX = e.touches ? e.touches[0].pageX : e.pageX;
+            let x = (pageX - rect.left) / rect.width;
             x = Math.max(0, Math.min(1, x));
             elements.compAfter.style.width = (x * 100) + '%';
             elements.compHandle.style.left = (x * 100) + '%';
         };
 
-        elements.compHandle.onmousedown = () => elements.compSlider.classList.add('dragging');
-        window.onmouseup = () => elements.compSlider.classList.remove('dragging');
-        window.onmousemove = move;
+        const startMove = () => elements.compSlider.classList.add('dragging');
+        const endMove = () => elements.compSlider.classList.remove('dragging');
+
+        elements.compHandle.addEventListener('mousedown', startMove);
+        elements.compHandle.addEventListener('touchstart', startMove);
+        
+        window.addEventListener('mouseup', endMove);
+        window.addEventListener('touchend', endMove);
+        
+        window.addEventListener('mousemove', move);
+        window.addEventListener('touchmove', move, { passive: false });
     };
 
     elements.resetBtn.onclick = () => {

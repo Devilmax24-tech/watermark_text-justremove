@@ -327,6 +327,12 @@ body {
     border: 1px solid #333;
 }
 
+@media (max-width: 600px) {
+    .editor-container .canvas-wrapper {
+        margin: 0.75rem;
+    }
+}
+
 canvas {
     display: block;
     max-width: 100%;
@@ -350,6 +356,27 @@ canvas {
     flex-wrap: wrap;
     gap: 1rem;
     background: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+    .toolbar {
+        padding: 1.25rem 1rem;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .tool-group {
+        width: 100%;
+        justify-content: center;
+    }
+    .tool-actions {
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .tool-actions button {
+        width: 100%;
+    }
 }
 
 .tool-group {
@@ -400,6 +427,13 @@ canvas {
     border: 1px solid #333;
 }
 
+@media (max-width: 600px) {
+    .comparison-slider {
+        margin: 0.75rem;
+        width: calc(100% - 1.5rem);
+    }
+}
+
 .comparison-after {
     position: absolute;
     inset: 0;
@@ -439,6 +473,15 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Ensure canvas takes full width on very small screens */
+@media (max-width: 480px) {
+    .editor-container .canvas-wrapper,
+    .comparison-slider {
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
+    }
 }
 
 /* ─── CONTENT SECTIONS ────────────────────────────── */
@@ -664,26 +707,64 @@ canvas {
         display: none;
     }
 
+    #nav-upload-btn {
+        padding: 0.4rem 1rem !important;
+        font-size: 0.75rem !important;
+    }
+
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
+        letter-spacing: -1px;
+    }
+
+    .hero-sub {
+        font-size: 1rem;
+        white-space: normal;
+        padding: 0 1rem;
     }
 
     .upload-container {
-        padding: 40px 1rem;
+        padding: 30px 1rem;
+        min-height: 200px;
     }
 
     .toolbar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        gap: 1.5rem;
     }
 
-    .footer-inner {
-        flex-direction: column;
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .footer-col-brand {
+        grid-column: span 2;
+        max-width: 100%;
         text-align: center;
-        justify-content: center;
+        margin-bottom: 2rem;
     }
 
-    .footer-links {
+    .footer-logo {
         justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-col-brand {
+        grid-column: span 1;
+    }
+
+    .nav-container {
+        padding: 0 1rem;
+    }
+    
+    #nav-upload-btn {
+        display: none; /* Hide nav upload btn on very small screens to avoid logo overlap */
     }
 }

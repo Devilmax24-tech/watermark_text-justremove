@@ -57,7 +57,7 @@
                             style="font-size: 1.4rem; font-weight: bold; line-height: 1;">+</span> <span
                             style="font-size: 1.1rem;">Upload</span></button>
                     <p class="upload-hint" style="margin-top: 1.5rem; font-size: 0.95rem; color: #888; font-weight: 500;">Drop an image or Paste
-                        <strong style="color: #fff;">URL</strong> (Image or Photo)
+                         Image
                     </p>
                     <input type="file" id="image-input" accept="image/*" hidden>
                 </div>
@@ -76,8 +76,8 @@
                         <div class="mac-title">JustRemove Editor</div>
                     </div>
                     <div class="canvas-wrapper checkered-bg" id="canvas-wrapper">
-                        <canvas id="main-canvas"></canvas>
-                        <canvas id="mask-canvas"></canvas>
+                        <canvas id="main-canvas" style="touch-action: none;"></canvas>
+                        <canvas id="mask-canvas" style="touch-action: none;"></canvas>
                     </div>
                     <div class="toolbar">
                         <div class="tool-group">
