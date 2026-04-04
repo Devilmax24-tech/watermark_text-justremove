@@ -99,14 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const initEditor = () => {
         const img = state.originalImage;
         const container = sections.editor.querySelector('.editor-container');
-        const padding = window.innerWidth < 600 ? 24 : 48; 
+        const isMobile = window.innerWidth < 600;
+
+        // More aggressive mobile spacing
+        const padding = isMobile ? 10 : 48;
         const containerWidth = container.clientWidth - padding;
-        const availableHeight = window.innerHeight * 0.6;
-        
+
+        // Use more screen on mobile (75% of viewport height)
+        const availableHeight = isMobile ? window.innerHeight * 0.75 : window.innerHeight * 0.55;
+
         const scaleW = containerWidth / img.width;
         const scaleH = availableHeight / img.height;
-        state.scaleFactor = Math.min(1, scaleW, scaleH);
-        
+
+        // On mobile, let images scale up more to fill available space
+        state.scaleFactor = isMobile ? Math.min(1, scaleW, scaleH) : Math.min(1, scaleW, scaleH);
+
         const w = Math.floor(img.width * state.scaleFactor);
         const h = Math.floor(img.height * state.scaleFactor);
 
@@ -131,12 +138,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getPos = (e) => {
         const rect = elements.maskCanvas.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        return {
-            x: clientX - rect.left,
-            y: clientY - rect.top
-        };
+        
+        // Handle both Mouse and Touch events
+        let x, y;
+        if (e.touches && e.touches.length > 0) {
+            x = e.touches[0].clientX - rect.left;
+            y = e.touches[0].clientY - rect.top;
+        } else if (e.changedTouches && e.changedTouches.length > 0) {
+            // For touchend/touchcancel
+            x = e.changedTouches[0].clientX - rect.left;
+            y = e.changedTouches[0].clientY - rect.top;
+        } else {
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+        }
+
+        // Apply scale factor for high-DPI mapping
+        return { x, y };
     };
 
     const startDrawing = (e) => {
@@ -171,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.maskCanvas.addEventListener('touchstart', startDrawing, { passive: false });
     elements.maskCanvas.addEventListener('touchmove', draw, { passive: false });
     elements.maskCanvas.addEventListener('touchend', stopDrawing);
+    elements.maskCanvas.addEventListener('touchcancel', stopDrawing);
 
     elements.brushSlider.oninput = (e) => {
         const val = e.target.value;

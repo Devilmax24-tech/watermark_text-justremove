@@ -37,13 +37,6 @@ async def startup_event():
     print("✅ AI model loaded and ready.")
 
 # ─── ROUTES ──────────────────────────────────────────────
-@app.get("/")
-async def read_index():
-    index_path = os.path.join(STATIC_DIR, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    return JSONResponse({"message": "index.html not found in static folder."}, status_code=404)
-
 @app.get("/health")
 async def health_check():
     """Frontend polls this to know when the model is ready."""
@@ -85,7 +78,7 @@ async def remove_watermark(
 
 
 # ─── STATIC FILES ─────────────────────────────────────────
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=False)
