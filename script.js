@@ -138,22 +138,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getPos = (e) => {
         const rect = elements.maskCanvas.getBoundingClientRect();
-        
+        const dpr = window.devicePixelRatio || 1;
+
         // Handle both Mouse and Touch events
         let x, y;
         if (e.touches && e.touches.length > 0) {
-            x = e.touches[0].clientX - rect.left;
-            y = e.touches[0].clientY - rect.top;
+            x = (e.touches[0].clientX - rect.left) * dpr;
+            y = (e.touches[0].clientY - rect.top) * dpr;
         } else if (e.changedTouches && e.changedTouches.length > 0) {
-            // For touchend/touchcancel
-            x = e.changedTouches[0].clientX - rect.left;
-            y = e.changedTouches[0].clientY - rect.top;
+            x = (e.changedTouches[0].clientX - rect.left) * dpr;
+            y = (e.changedTouches[0].clientY - rect.top) * dpr;
         } else {
-            x = e.clientX - rect.left;
-            y = e.clientY - rect.top;
+            x = (e.clientX - rect.left) * dpr;
+            y = (e.clientY - rect.top) * dpr;
         }
 
-        // Apply scale factor for high-DPI mapping
+        // Clamp to canvas bounds
+        x = Math.max(0, Math.min(x, elements.maskCanvas.width));
+        y = Math.max(0, Math.min(y, elements.maskCanvas.height));
+
         return { x, y };
     };
 
