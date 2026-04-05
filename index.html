@@ -94,9 +94,12 @@
                             <span id="zoom-val" style="font-size: 0.85rem; color: var(--text-light); font-weight: 600; min-width: 40px; text-align: center;">100%</span>
                             <button id="zoom-in-btn" class="btn-zoom" title="Zoom In">+</button>
                         </div>
-                        <div class="tool-actions" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <div class="tool-actions" style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+                            <button id="undo-btn" class="btn-icon" title="Undo (Ctrl+Z)">↶</button>
+                            <button id="redo-btn" class="btn-icon" title="Redo (Ctrl+Y)">↷</button>
+                            <button id="reset-mask-btn" class="btn-icon" title="Reset Drawing">🔄</button>
+                            <div style="flex: 1;"></div>
                             <button id="try-different-btn" class="btn-secondary" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; font-size: 0.95rem;"><span style="font-size: 1rem;">↻</span> Try Different</button>
-                            <button id="clear-mask" class="btn-secondary" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; font-size: 0.95rem;"><span style="font-size: 1rem;">✕</span> Clear</button>
                             <button id="remove-btn" class="btn-primary"
                                 style="padding: 0.75rem 2rem; font-size: 1rem; display: flex; align-items: center; gap: 0.6rem; justify-content: center; border-radius: 12px;"><span style="font-size: 1.1rem;">✓</span> Remove</button>
                         </div>

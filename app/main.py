@@ -86,15 +86,15 @@ async def remove_watermark(
         )
         print(f"✅ Processing complete: {len(processed_bytes)} bytes")
     except Exception as e:
-        print(f\"❌ Processing error: {e}\")
+        print(f"❌ Processing error: {e}")
         import traceback
         traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f\"AI processing failed: {str(e)}\")
+        raise HTTPException(status_code=500, detail=f"AI processing failed: {str(e)}")
 
     return Response(
         content=processed_bytes,
         media_type="image/png",
-        headers={"Content-Disposition": f"attachment; filename=\"justremove-result.png\""}
+        headers={"Content-Disposition": 'attachment; filename="justremove-result.png"'}
     )
 
 @app.get("/api/status")

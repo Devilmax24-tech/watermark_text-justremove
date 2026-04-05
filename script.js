@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
         scaleFactor: 1,
         zoom: 1,
         minZoom: 0.5,
-        maxZoom: 3
+        maxZoom: 3,
+        history: [],
+        historyStep: -1
     };
 
     const sections = {
@@ -39,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         zoomInBtn: document.getElementById('zoom-in-btn'),
         zoomOutBtn: document.getElementById('zoom-out-btn'),
         zoomVal: document.getElementById('zoom-val'),
+        undoBtn: document.getElementById('undo-btn'),
+        redoBtn: document.getElementById('redo-btn'),
+        resetMaskBtn: document.getElementById('reset-mask-btn'),
         clearBtn: document.getElementById('clear-mask'),
         removeBtn: document.getElementById('remove-btn'),
         tryDifferentBtn: document.getElementById('try-different-btn'),
@@ -106,8 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── EDITOR LOGIC ───────────────────────────────────────
     const initEditor = () => {
         state.zoom = 1;
+        state.history = [];
+        state.historyStep = -1;
         elements.zoomVal.textContent = '100%';
         updateCanvasSize();
+        updateHistoryButtons();
     };
 
     const getPos = (e) => {
@@ -143,6 +151,57 @@ document.addEventListener('DOMContentLoaded', () => {
         y = Math.max(0, Math.min(y, elements.maskCanvas.height));
         
         return { x, y };
+    };
+
+    // ─── UNDO/REDO HISTORY ──────────────────────────────────
+    const saveToHistory = () => {
+        // Remove any states after current step (when redo was available)
+        state.history = state.history.slice(0, state.historyStep + 1);
+        // Save current mask state
+        state.history.push(elements.maskCanvas.toDataURL());
+        state.historyStep++;
+        updateHistoryButtons();
+    };
+
+    const undo = () => {
+        if (state.historyStep > 0) {
+            state.historyStep--;
+            restoreFromHistory();
+        }
+    };
+
+    const redo = () => {
+        if (state.historyStep < state.history.length - 1) {
+            state.historyStep++;
+            restoreFromHistory();
+        }
+    };
+
+    const restoreFromHistory = () => {
+        const imageData = state.history[state.historyStep];
+        const img = new Image();
+        img.onload = () => {
+            state.maskCtx.clearRect(0, 0, elements.maskCanvas.width, elements.maskCanvas.height);
+            state.maskCtx.drawImage(img, 0, 0);
+            updateHistoryButtons();
+        };
+        img.src = imageData;
+    };
+
+    const resetMask = () => {
+        state.maskCtx.clearRect(0, 0, elements.maskCanvas.width, elements.maskCanvas.height);
+        state.history = [];
+        state.historyStep = -1;
+        updateHistoryButtons();
+    };
+
+    const updateHistoryButtons = () => {
+        if (elements.undoBtn) {
+            elements.undoBtn.disabled = state.historyStep <= 0;
+        }
+        if (elements.redoBtn) {
+            elements.redoBtn.disabled = state.historyStep >= state.history.length - 1;
+        }
     };
 
     const startDrawing = (e) => {
@@ -185,6 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
         }
+        if (state.isDrawing) {
+            saveToHistory();
+        }
         state.isDrawing = false;
         console.log('🛑 STOP DRAW:', e?.type);
         if (elements.touchDebug) {
@@ -211,8 +273,32 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     elements.clearBtn.onclick = () => {
-        state.maskCtx.clearRect(0, 0, elements.maskCanvas.width, elements.maskCanvas.height);
+        resetMask();
     };
+
+    // ─── UNDO/REDO/RESET BUTTONS ────────────────────────────
+    if (elements.undoBtn) {
+        elements.undoBtn.onclick = undo;
+    }
+    if (elements.redoBtn) {
+        elements.redoBtn.onclick = redo;
+    }
+    if (elements.resetMaskBtn) {
+        elements.resetMaskBtn.onclick = resetMask;
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+            if (e.key === 'z') {
+                e.preventDefault();
+                undo();
+            } else if (e.key === 'y' || (e.shiftKey && e.key === 'Z')) {
+                e.preventDefault();
+                redo();
+            }
+        }
+    });
 
     // ─── ZOOM FUNCTIONALITY ─────────────────────────────────
     const updateCanvasSize = () => {
