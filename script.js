@@ -116,15 +116,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Handle both Mouse and Touch events
         let x, y;
         if (e.touches && e.touches.length > 0) {
-            x = (e.touches[0].clientX - rect.left) * dpr;
-            y = (e.touches[0].clientY - rect.top) * dpr;
+            x = e.touches[0].clientX - rect.left;
+            y = e.touches[0].clientY - rect.top;
         } else if (e.changedTouches && e.changedTouches.length > 0) {
-            x = (e.changedTouches[0].clientX - rect.left) * dpr;
-            y = (e.changedTouches[0].clientY - rect.top) * dpr;
+            x = e.changedTouches[0].clientX - rect.left;
+            y = e.changedTouches[0].clientY - rect.top;
         } else {
-            x = (e.clientX - rect.left) * dpr;
-            y = (e.clientY - rect.top) * dpr;
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
         }
+
+        // Scale to canvas internal resolution
+        x = x * dpr;
+        y = y * dpr;
 
         // Clamp to canvas bounds
         x = Math.max(0, Math.min(x, elements.maskCanvas.width));
@@ -134,7 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const startDrawing = (e) => {
-        if (e.type === 'touchstart') e.preventDefault();
+        if (e.type === 'touchstart') {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         state.isDrawing = true;
         const pos = getPos(e);
         [state.lastX, state.lastY] = [pos.x, pos.y];
@@ -142,7 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const draw = (e) => {
         if (!state.isDrawing) return;
-        if (e.type === 'touchmove') e.preventDefault();
+        if (e.type === 'touchmove') {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         const pos = getPos(e);
 
         state.maskCtx.beginPath();
@@ -153,7 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
         [state.lastX, state.lastY] = [pos.x, pos.y];
     };
 
-    const stopDrawing = () => state.isDrawing = false;
+    const stopDrawing = (e) => {
+        if (e && e.type === 'touchend') {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        state.isDrawing = false;
+    };
 
     // Mouse Events
     elements.maskCanvas.addEventListener('mousedown', startDrawing);
@@ -164,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Touch Events
     elements.maskCanvas.addEventListener('touchstart', startDrawing, { passive: false });
     elements.maskCanvas.addEventListener('touchmove', draw, { passive: false });
-    elements.maskCanvas.addEventListener('touchend', stopDrawing);
-    elements.maskCanvas.addEventListener('touchcancel', stopDrawing);
+    elements.maskCanvas.addEventListener('touchend', stopDrawing, { passive: false });
+    elements.maskCanvas.addEventListener('touchcancel', stopDrawing, { passive: false });
 
     elements.brushSlider.oninput = (e) => {
         const val = e.target.value;
