@@ -522,6 +522,8 @@ button {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    width: fit-content;
+    height: fit-content;
 }
 
 .editor-container canvas {
@@ -559,13 +561,21 @@ canvas {
     }
 }
 
+#main-canvas {
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
 #mask-canvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0.5;
     touch-action: none;
     cursor: crosshair;
+    z-index: 2;
 }
 
 .toolbar {
