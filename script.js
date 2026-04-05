@@ -49,7 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadBtn: document.getElementById('download-btn'),
         compSlider: document.getElementById('comparison-slider'),
         compAfter: document.getElementById('comparison-after'),
-        compHandle: document.getElementById('comparison-handle')
+        compHandle: document.getElementById('comparison-handle'),
+        touchDebug: document.getElementById('touch-debug')
     };
 
     // ─── UTILS ──────────────────────────────────────────────
@@ -111,29 +112,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getPos = (e) => {
         const rect = elements.maskCanvas.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1;
-
-        // Handle both Mouse and Touch events
-        let x, y;
+        
+        // Get touch or mouse position in viewport
+        let clientX, clientY;
         if (e.touches && e.touches.length > 0) {
-            x = e.touches[0].clientX - rect.left;
-            y = e.touches[0].clientY - rect.top;
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
         } else if (e.changedTouches && e.changedTouches.length > 0) {
-            x = e.changedTouches[0].clientX - rect.left;
-            y = e.changedTouches[0].clientY - rect.top;
+            clientX = e.changedTouches[0].clientX;
+            clientY = e.changedTouches[0].clientY;
         } else {
-            x = e.clientX - rect.left;
-            y = e.clientY - rect.top;
+            clientX = e.clientX;
+            clientY = e.clientY;
         }
-
+        
+        // Convert to position relative to canvas display size
+        let x = clientX - rect.left;
+        let y = clientY - rect.top;
+        
         // Scale to canvas internal resolution
-        x = x * dpr;
-        y = y * dpr;
-
+        // Canvas is displayed at rect.width x rect.height but internally w*dpr x h*dpr
+        const scaleX = elements.maskCanvas.width / rect.width;
+        const scaleY = elements.maskCanvas.height / rect.height;
+        
+        x = x * scaleX;
+        y = y * scaleY;
+        
         // Clamp to canvas bounds
         x = Math.max(0, Math.min(x, elements.maskCanvas.width));
         y = Math.max(0, Math.min(y, elements.maskCanvas.height));
-
+        
         return { x, y };
     };
 
@@ -145,6 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
         state.isDrawing = true;
         const pos = getPos(e);
         [state.lastX, state.lastY] = [pos.x, pos.y];
+        const msg = `🖍️ TOUCH START\nX: ${Math.round(pos.x)} Y: ${Math.round(pos.y)}\nCanvas: ${elements.maskCanvas.width}x${elements.maskCanvas.height}`;
+        console.log(msg);
+        if (elements.touchDebug) {
+            elements.touchDebug.style.display = 'block';
+            elements.touchDebug.textContent = msg;
+        }
     };
 
     const draw = (e) => {
@@ -161,6 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
         state.maskCtx.stroke();
 
         [state.lastX, state.lastY] = [pos.x, pos.y];
+        if (elements.touchDebug) {
+            elements.touchDebug.textContent = `🖍️ DRAWING\nX: ${Math.round(pos.x)} Y: ${Math.round(pos.y)}`;
+        }
     };
 
     const stopDrawing = (e) => {
@@ -169,6 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
         }
         state.isDrawing = false;
+        console.log('🛑 STOP DRAW:', e?.type);
+        if (elements.touchDebug) {
+            elements.touchDebug.style.display = 'none';
+        }
     };
 
     // Mouse Events
@@ -211,28 +232,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const baseFactor = Math.min(1, scaleW, scaleH);
 
         // Apply zoom
-        const dpr = window.devicePixelRatio || 1;
         const zoomedFactor = baseFactor * state.zoom;
+        const dpr = window.devicePixelRatio || 1;
 
         const w = Math.floor(img.width * zoomedFactor);
         const h = Math.floor(img.height * zoomedFactor);
 
-        // Update canvas internal size (for drawing)
-        elements.mainCanvas.width = elements.maskCanvas.width = w * dpr;
-        elements.mainCanvas.height = elements.maskCanvas.height = h * dpr;
+        // Update canvas internal size (for drawing) - no DPR multiplication needed
+        // Browser handles pixel density automatically
+        elements.mainCanvas.width = elements.maskCanvas.width = w;
+        elements.mainCanvas.height = elements.maskCanvas.height = h;
 
         // Update canvas display size
         elements.mainCanvas.style.width = elements.maskCanvas.style.width = w + 'px';
         elements.mainCanvas.style.height = elements.maskCanvas.style.height = h + 'px';
 
-        // Redraw image on main canvas
+        // Redraw image on main canvas (no scaling context, drawing naturally)
         const ctx = elements.mainCanvas.getContext('2d');
-        ctx.scale(dpr, dpr);
         ctx.drawImage(img, 0, 0, w, h);
 
-        // Update mask context scale (canvas resize clears the mask, which is okay for zoom)
+        // Update mask context (no scale applied, coordinates are direct)
         state.maskCtx = elements.maskCanvas.getContext('2d');
-        state.maskCtx.scale(dpr, dpr);
         state.maskCtx.lineCap = 'round';
         state.maskCtx.lineJoin = 'round';
         state.maskCtx.strokeStyle = 'rgba(242, 78, 30, 0.7)';
