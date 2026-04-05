@@ -32,15 +32,33 @@ async def startup_event():
     doesn't have to wait for model initialization (~5-15s).
     Runs in a thread to avoid blocking the event loop.
     """
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(None, get_inpainter)
-    print("✅ AI model loaded and ready.")
+    try:
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, get_inpainter)
+        print("✅ AI model loaded and ready.")
+    except Exception as e:
+        print(f"⚠️ Warning: Failed to pre-load model: {e}")
+        print("Model will be loaded on first request.")
 
 # ─── ROUTES ──────────────────────────────────────────────
 @app.get("/health")
 async def health_check():
     """Frontend polls this to know when the model is ready."""
-    return JSONResponse({"status": "ok", "model": "lama"})
+    try:
+        # Try to get inpainter to check if model is loaded
+        inpainter = get_inpainter()
+        return JSONResponse({
+            "status": "ok",
+            "model": "lama",
+            "message": "AI model is ready"
+        })
+    except Exception as e:
+        print(f"Health check warning: {e}")
+        return JSONResponse({
+            "status": "loading",
+            "model": "lama",
+            "message": "Model is loading..."
+        }, status_code=202)
 
 @app.post("/remove-watermark")
 async def remove_watermark(
@@ -61,13 +79,17 @@ async def remove_watermark(
     try:
         # Run the CPU/GPU-heavy work in a thread pool so we don't block
         # FastAPI's async event loop.
+        print(f"Processing image: {len(image_bytes)} bytes, mask: {len(mask_bytes)} bytes")
         loop = asyncio.get_event_loop()
         processed_bytes = await loop.run_in_executor(
             None, remove_watermark_ai, image_bytes, mask_bytes
         )
+        print(f"✅ Processing complete: {len(processed_bytes)} bytes")
     except Exception as e:
-        print(f"❌ Processing error: {e}")
-        raise HTTPException(status_code=500, detail=f"AI processing failed: {str(e)}")
+        print(f\"❌ Processing error: {e}\")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f\"AI processing failed: {str(e)}\")
 
     return Response(
         content=processed_bytes,
@@ -75,6 +97,24 @@ async def remove_watermark(
         headers={"Content-Disposition": f"attachment; filename=\"justremove-result.png\""}
     )
 
+@app.get("/api/status")
+async def status_check():
+    """Diagnostic endpoint to check deployment status."""
+    import sys
+    try:
+        inpainter = get_inpainter()
+        return JSONResponse({
+            "status": "operational",
+            "model": "lama",
+            "python_version": sys.version,
+            "torch_available": True,
+        })
+    except Exception as e:
+        return JSONResponse({
+            "status": "error",
+            "error": str(e),
+            "python_version": sys.version,
+        }, status_code=500)
 
 
 # ─── STATIC FILES ─────────────────────────────────────────

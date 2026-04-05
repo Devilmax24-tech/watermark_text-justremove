@@ -270,8 +270,17 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('image', imgBlob, 'file.png');
             formData.append('mask', maskBlob, 'mask.png');
 
-            const response = await fetch('./remove-watermark', { method: 'POST', body: formData });
-            if (!response.ok) throw new Error('Failed to remove watermark');
+            console.log('Sending request to /remove-watermark');
+            const response = await fetch('/remove-watermark', { 
+                method: 'POST', 
+                body: formData 
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`API Error (${response.status}):`, errorText);
+                throw new Error(`API Error: ${response.status} - ${errorText}`);
+            }
 
             const resultBlob = await response.blob();
             const resultUrl = URL.createObjectURL(resultBlob);
@@ -283,8 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
             initComparison();
             switchSection('result');
         } catch (err) {
-            console.error(err);
-            alert("Error removing watermark. Please try again.");
+            console.error('Watermark removal error:', err);
+            alert(`Error removing watermark: ${err.message}`);
         } finally {
             elements.removeBtn.disabled = false;
             elements.removeBtn.textContent = 'Remove';
