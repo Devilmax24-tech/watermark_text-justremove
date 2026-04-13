@@ -392,8 +392,8 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('image', imgBlob, 'file.png');
             formData.append('mask', maskBlob, 'mask.png');
 
-            console.log('Sending request to /remove-watermark');
-            const response = await fetch('/remove-watermark', { 
+            console.log('Sending request to', CONFIG.API_URL + '/remove-watermark');
+            const response = await fetch(CONFIG.API_URL + '/remove-watermark', { 
                 method: 'POST', 
                 body: formData 
             });

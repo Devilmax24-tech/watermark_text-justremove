@@ -1,0 +1,25 @@
+# Python files - not needed on Vercel
+*.py
+**/__pycache__
+app/
+venv/
+*.pyc
+requirements.txt
+Dockerfile
+docker-compose.yml
+nginx.conf
+deploy.sh
+
+# Documentation
+ANDROID_DEBUG.md
+DEPLOYMENT.md
+README.md
+
+# Environment and git
+.env*
+.env.*.local
+*.log
+
+# Development
+.git
+.gitignore
