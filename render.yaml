@@ -3,8 +3,8 @@ services:
     name: watermark-api
     env: python
     plan: free
-    buildCommand: "pip install --no-cache-dir -r requirements.txt"
-    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --loop uvloop"
+    buildCommand: "python3 -m pip install --upgrade pip && python3 -m pip install --no-cache-dir --only-binary :all: -r requirements.txt"
+    startCommand: "python3 -m uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --loop uvloop"
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.15
