@@ -1,5 +1,5 @@
 # Multi-stage build for production
-FROM python:3.10-slim as builder
+FROM python:3.10.15-slim as builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ RUN pip install --user --no-cache-dir --no-deps -r requirements.txt && \
     pip install --user --no-cache-dir torch==2.0.1 torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cpu
 
 # Final production image
-FROM python:3.10-slim
+FROM python:3.10.15-slim
 
 WORKDIR /app
 
