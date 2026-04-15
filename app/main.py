@@ -24,20 +24,15 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 if not os.path.exists(STATIC_DIR):
     os.makedirs(STATIC_DIR, exist_ok=True)
 
-# ─── STARTUP: Pre-load the AI model ─────────────────────
-@app.on_event("startup")
-async def startup_event():
-    """
-    Load the LaMA model at startup so the first user request
-    doesn't have to wait for model initialization (~5-15s).
-    Runs in a thread to avoid blocking the event loop.
-    """
-    try:
-        loop = asyncio.get_event_loop()
-        await loop.run_in_executor(None, get_inpainter)
-        print("✅ AI model loaded and ready.")
-    except Exception as e:
-        print(f"⚠️ Warning: Failed to pre-load model: {e}")
+# Global model cache
+_model_cache = None
+
+def get_model():
+    """Lazy load model on first use to save memory at startup"""
+    global _model_cache
+    if _model_cache is None:
+        _model_cache = get_inpainter()
+    return _model_cache
         print("Model will be loaded on first request.")
 
 # ─── ROUTES ──────────────────────────────────────────────

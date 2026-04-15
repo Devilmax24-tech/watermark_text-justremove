@@ -3,10 +3,18 @@ services:
     name: watermark-api
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    buildCommand: "pip install --no-cache-dir -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --loop uvloop"
     envVars:
       - key: PYTHON_VERSION
         value: 3.10
       - key: PORT
         value: 8000
+      - key: PYTORCH_ENABLE_MPS_FALLBACK
+        value: "1"
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: TORCH_NUM_THREADS
+        value: "1"
+      - key: PYTHONUNBUFFERED
+        value: "1"
