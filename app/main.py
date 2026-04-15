@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import os
+import gc
 import uvicorn
 from app.algorithms import remove_watermark_ai, get_inpainter
 
@@ -70,20 +71,33 @@ async def remove_watermark(
 
     if not image_bytes or not mask_bytes:
         raise HTTPException(status_code=400, detail="Empty file received.")
+    
+    # Check file sizes (max 20MB)
+    if len(image_bytes) > 20 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Image too large (max 20MB)")
+    if len(mask_bytes) > 20 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Mask too large (max 20MB)")
 
     try:
-        # Run the CPU/GPU-heavy work in a thread pool so we don't block
-        # FastAPI's async event loop.
+        # Force garbage collection
+        gc.collect()
+        
+        # Run the CPU/GPU-heavy work in a thread pool
         print(f"Processing image: {len(image_bytes)} bytes, mask: {len(mask_bytes)} bytes")
         loop = asyncio.get_event_loop()
         processed_bytes = await loop.run_in_executor(
             None, remove_watermark_ai, image_bytes, mask_bytes
         )
         print(f"✅ Processing complete: {len(processed_bytes)} bytes")
+        
+        # Clean up
+        del image_bytes, mask_bytes
+        gc.collect()
     except Exception as e:
         print(f"❌ Processing error: {e}")
         import traceback
         traceback.print_exc()
+        gc.collect()
         raise HTTPException(status_code=500, detail=f"AI processing failed: {str(e)}")
 
     return Response(
