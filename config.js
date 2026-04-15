@@ -23,7 +23,7 @@ const getBackendURL = () => {
     
     // Default production: Change this to your Render backend URL once deployed
     // Format: https://watermark-api.onrender.com
-    return 'https://watermark-api.onrender.com';
+    return 'https://justremove-api-ibu3.onrender.com';
 };
 
 const API_URL = getBackendURL();

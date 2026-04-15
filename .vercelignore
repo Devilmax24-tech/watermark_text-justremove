@@ -1,25 +1,48 @@
-# Python files - not needed on Vercel
-*.py
-**/__pycache__
-app/
+# Python environment - not deployed
 venv/
-*.pyc
-requirements.txt
-Dockerfile
-docker-compose.yml
-nginx.conf
-deploy.sh
+env/
+.venv/
+*.egg-info/
 
-# Documentation
-ANDROID_DEBUG.md
-DEPLOYMENT.md
-README.md
+# Git
+.git/
+.gitignore
+.gitattributes
 
-# Environment and git
-.env*
-.env.*.local
+# OS and IDE
+.DS_Store
+.vscode/
+.idea/
 *.log
 
-# Development
-.git
-.gitignore
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment files
+.env*
+*.local
+
+# Large data files
+data/
+output/
+downloads/
+algorithms/models/*.pt
+algorithms/models/*.onnx
+algorithms/models/*.pth
+
+# Documentation (optional - remove if you want docs)
+README.md
+ANDROID_DEBUG.md
+DEPLOYMENT.md
+
+# Build artifacts
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/

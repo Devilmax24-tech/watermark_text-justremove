@@ -1,12 +1,61 @@
+# Python
 venv/
+env/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.DS_Store
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Git and Version Control
 .git/
+.gitignore
+.gitattributes
+.github/
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# Environment
 .env
+.env.local
+.env.*.local
+
+# Large Files and Models
 data/
+output/
+downloads/
 algorithms/models/*.pt
-# If models are large, you might want to fetch them via script or cloud storage during build
-# but for now, we'll include them if they're needed for a simple deploy.
+algorithms/models/*.onnx
+algorithms/models/*.pth
+
+# Documentation
+*.md
+ANDROID_DEBUG.md
+DEPLOYMENT.md
+VERCEL_RENDER_DEPLOYMENT.md
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
