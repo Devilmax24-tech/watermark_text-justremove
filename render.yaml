@@ -2,13 +2,12 @@ services:
   - type: web
     name: watermark-api
     env: python
-    pythonVersion: 3.10
     plan: free
     buildCommand: "pip install --upgrade pip setuptools wheel && pip install --no-cache-dir --only-binary :all: -r requirements.txt"
     startCommand: "python3 -m uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --loop uvloop"
     envVars:
       - key: PORT
-        value: 8000
+        value: "8000"
       - key: PYTORCH_ENABLE_MPS_FALLBACK
         value: "1"
       - key: OMP_NUM_THREADS

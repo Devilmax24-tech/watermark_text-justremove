@@ -7,8 +7,8 @@ python-multipart
 pydantic
 
 # PyTorch (CPU)
-torch==2.6.0
-torchvision==0.26.0
+torch==2.11.0
+torchvision==0.17.2
 
 # Image processing
 opencv-python-headless
