@@ -1,8 +1,20 @@
-# Python environment - not deployed
+# Python environment - not needed for static deployment
 venv/
 env/
 .venv/
 *.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Python files and config
+requirements.txt
+*.py
+app/
+Dockerfile
+render.yaml
+runtime.txt
 
 # Git
 .git/
@@ -14,12 +26,6 @@ env/
 .vscode/
 .idea/
 *.log
-
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
 
 # Environment files
 .env*
@@ -33,10 +39,10 @@ algorithms/models/*.pt
 algorithms/models/*.onnx
 algorithms/models/*.pth
 
-# Documentation (optional - remove if you want docs)
+# Documentation
 README.md
-ANDROID_DEBUG.md
-DEPLOYMENT.md
+LICENSE
+*.md
 
 # Build artifacts
 dist/

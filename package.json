@@ -1,0 +1,9 @@
+{
+  "name": "justremove-frontend",
+  "version": "1.0.0",
+  "description": "JustRemove - AI Watermark Remover Frontend",
+  "private": true,
+  "scripts": {
+    "build": "exit 0"
+  }
+}

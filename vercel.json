@@ -1,8 +1,10 @@
 {
-  "buildCommand": "echo 'Vercel deployment ready - static files only'",
+  "buildCommand": "exit 0",
   "outputDirectory": "static",
   "cleanUrls": true,
   "trailingSlash": false,
+  "framework": "static",
+  "env": [],
   "rewrites": [
     {
       "source": "/(.*)",
