@@ -270,7 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('image', imgBlob, 'file.png');
             formData.append('mask', maskBlob, 'mask.png');
 
-            const response = await fetch('./remove-watermark', { method: 'POST', body: formData });
+            const API_URL = 'https://justremove-api-ibu3.onrender.com';
+            const response = await fetch(API_URL + '/remove-watermark', { method: 'POST', body: formData });
             if (!response.ok) throw new Error('Failed to remove watermark');
 
             const resultBlob = await response.blob();
