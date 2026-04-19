@@ -3,7 +3,6 @@
   "outputDirectory": "static",
   "cleanUrls": true,
   "trailingSlash": false,
-  "python": "3.10",
   "rewrites": [
     {
       "source": "/(.*)",
