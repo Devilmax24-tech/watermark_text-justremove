@@ -32,9 +32,9 @@ def get_model():
     """Lazy load model on first use to save memory at startup"""
     global _model_cache
     if _model_cache is None:
+        print("Model will be loaded on first request.")
         _model_cache = get_inpainter()
     return _model_cache
-        print("Model will be loaded on first request.")
 
 # ─── ROUTES ──────────────────────────────────────────────
 @app.get("/health")
@@ -84,7 +84,11 @@ async def remove_watermark(
         
         # Run the CPU/GPU-heavy work in a thread pool
         print(f"Processing image: {len(image_bytes)} bytes, mask: {len(mask_bytes)} bytes")
-        loop = asyncio.get_event_loop()
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
         processed_bytes = await loop.run_in_executor(
             None, remove_watermark_ai, image_bytes, mask_bytes
         )

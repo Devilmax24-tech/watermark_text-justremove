@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from PIL import Image
 from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import peak_signal_noise_ratio as psnr
 
@@ -30,5 +31,3 @@ def save_image_with_quality(image, path, quality=100):
     else:
         # cv2 uses 0-100 for JPEG quality
         cv2.imwrite(path, image, [int(cv2.IMWRITE_JPEG_QUALITY), quality])
-
-from PIL import Image

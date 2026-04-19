@@ -98,6 +98,7 @@ def remove_watermark_ai(image_bytes: bytes, mask_bytes: bytes) -> bytes:
         print(f"Error in remove_watermark_ai: {e}")
         import traceback
         traceback.print_exc()
+        raise
         # Clean up on error
         gc.collect()
         raise
