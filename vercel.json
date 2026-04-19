@@ -2,6 +2,5 @@
   "buildCommand": "exit 0",
   "outputDirectory": "static",
   "cleanUrls": true,
-  "trailingSlash": false,
-  "framework": "static"
+  "trailingSlash": false
 }
