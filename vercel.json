@@ -3,12 +3,5 @@
   "outputDirectory": "static",
   "cleanUrls": true,
   "trailingSlash": false,
-  "framework": "static",
-  "env": [],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+  "framework": "static"
 }
