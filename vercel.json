@@ -1,6 +1,8 @@
 {
-  "buildCommand": "exit 0",
+  "buildCommand": "",
+  "installCommand": "",
   "outputDirectory": "static",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "regions": ["iad1"]
 }
