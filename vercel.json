@@ -1,14 +1,10 @@
 {
   "buildCommand": "pip install -r requirements.txt",
-  "installCommand": "",
-  "outputDirectory": "static",
+  "installCommand": "echo 'Skip npm install for Python app'",
+  "outputDirectory": ".",
   "env": {
-    "PYTHONUNBUFFERED": "1",
-    "PYTHONDONTWRITEBYTECODE": "1"
-  },
-  "python": {
-    "version": "3.10"
-  },
-  "regions": ["iad1"]
+    "PYTHONUNBUFFERED": "1"
+  }
 }
+
 
