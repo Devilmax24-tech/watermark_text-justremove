@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "JustRemove - AI Watermark Remover Frontend",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
-    "build": "exit 0"
+    "build": "echo 'Python app - no Node build needed'",
+    "start": "python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000",
+    "dev": "python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload",
+    "serve-static": "python3 -m http.server --directory static 8000"
   }
 }

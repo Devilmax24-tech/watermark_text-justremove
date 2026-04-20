@@ -1,4 +1,4 @@
-# Python environment - not needed for static deployment
+# Python environment - excluded from Vercel
 venv/
 env/
 .venv/
@@ -8,18 +8,12 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Python files and config
-requirements.txt
-*.py
-app/
-Dockerfile
-render.yaml
-runtime.txt
-
-# Git
+# Git and config
 .git/
 .gitignore
 .gitattributes
+.env*
+*.local
 
 # OS and IDE
 .DS_Store
@@ -27,26 +21,32 @@ runtime.txt
 .idea/
 *.log
 
-# Environment files
-.env*
-*.local
+# Documentation (keep lightweight)
+*.md
+LICENSE
+
+# Model files (too large - load on-demand if possible)
+algorithms/models/*.pt
+algorithms/models/*.onnx
+algorithms/models/*.pth
+
+# Build artifacts
+dist/
+build/
+.pytest_cache/
+.coverage
 
 # Large data files
 data/
 output/
 downloads/
-algorithms/models/*.pt
-algorithms/models/*.onnx
-algorithms/models/*.pth
 
-# Documentation
-README.md
-LICENSE
-*.md
+# Docker (not needed for Vercel)
+Dockerfile
+.dockerignore
 
-# Build artifacts
-dist/
-build/
+# Other deployment (use either Vercel OR Render)
+render.yaml
 
 # Testing
 .pytest_cache/

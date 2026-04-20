@@ -37,6 +37,21 @@ def get_model():
     return _model_cache
 
 # ─── ROUTES ──────────────────────────────────────────────
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    """Serve favicon with proper caching headers"""
+    favicon_path = os.path.join(STATIC_DIR, "favicon.ico")
+    if os.path.exists(favicon_path):
+        return FileResponse(
+            favicon_path,
+            headers={
+                "Cache-Control": "public, max-age=604800",  # Cache for 7 days
+                "Content-Type": "image/x-icon"
+            }
+        )
+    # Return 204 No Content if favicon doesn't exist (no error)
+    return Response(status_code=204)
+
 @app.get("/health")
 async def health_check():
     """Frontend polls this to know when the model is ready."""
@@ -134,4 +149,21 @@ async def status_check():
 app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=False)
+    import sys
+    import os
+    
+    # Get port from environment or use default
+    port = int(os.getenv("PORT", 8000))
+    
+    # Determine if running in production
+    is_production = os.getenv("ENVIRONMENT", "").lower() in ["production", "prod", "render", "vercel"]
+    
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=port,
+        reload=not is_production,  # Reload only in development
+        workers=1,  # Single worker to save memory
+        loop="uvloop" if is_production else "auto",
+        log_level="info"
+    )
