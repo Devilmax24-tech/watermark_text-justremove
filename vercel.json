@@ -1,39 +1,14 @@
 {
   "buildCommand": "pip install -r requirements.txt",
-  "installCommand": "npm install",
-  "dev": "uvicorn app.main:app --host 0.0.0.0 --port 3000",
+  "installCommand": "",
+  "outputDirectory": "static",
   "env": {
-    "PYTHON_VERSION": "3.10"
+    "PYTHONUNBUFFERED": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
   },
   "python": {
     "version": "3.10"
   },
-  "builds": [
-    {
-      "src": "app/main.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "static/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/app/main.py"
-    }
-  ],
-  "regions": ["iad1"],
-  "functions": {
-    "app/main.py": {
-      "memory": 3008,
-      "maxDuration": 60,
-      "runtime": "python3.10"
-    }
-  }
+  "regions": ["iad1"]
 }
+
