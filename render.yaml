@@ -3,7 +3,7 @@ services:
     name: watermark-api
     env: python
     plan: free
-    buildCommand: "pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt"
+    buildCommand: "pip install --upgrade pip setuptools wheel && pip install --no-cache-dir --default-timeout=100 -r requirements.txt"
     startCommand: "python3 -m uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1 --loop uvloop"
     envVars:
       - key: PORT
